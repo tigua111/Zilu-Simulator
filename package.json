@@ -1,0 +1,10 @@
+{
+  "name": "zilu-simulator",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js",
+    "build": "mkdir -p dist && cp index.html style.css script.js dist/ || true",
+    "start": "node server.js"
+  }
+}

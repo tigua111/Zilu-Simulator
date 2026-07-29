@@ -1,0 +1,182 @@
+/* style.css */
+body {
+    background-color: #050505;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-10px); }
+    40% { transform: translateX(10px); }
+    60% { transform: translateX(-10px); }
+    80% { transform: translateX(10px); }
+}
+
+@keyframes knife-swing {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-70deg); }
+    50% { transform: rotate(20deg); }
+    75% { transform: rotate(-70deg); }
+}
+
+.knife-animate {
+    animation: knife-swing 0.3s infinite;
+}
+
+@keyframes squash {
+    0% { transform: rotate(90deg) scale(1, 1); opacity: 1; }
+    20% { transform: rotate(90deg) scale(1.2, 0.5); opacity: 0.8; }
+    40% { transform: rotate(90deg) scale(1.1, 0.8); opacity: 0.6; }
+    60% { transform: rotate(90deg) scale(1.5, 0.3); opacity: 0.4; }
+    80% { transform: rotate(90deg) scale(1.2, 0.6); opacity: 0.2; }
+    100% { transform: rotate(90deg) scale(1.8, 0.1); opacity: 0; }
+}
+
+@keyframes hammer-swing {
+    0% { transform: rotate(0deg); }
+    20% { transform: rotate(-110deg); }
+    25% { transform: rotate(10deg); }
+    45% { transform: rotate(-110deg); }
+    50% { transform: rotate(10deg); }
+    70% { transform: rotate(-110deg); }
+    75% { transform: rotate(10deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes gear-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+@keyframes gear-spin-reverse {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+}
+
+.gear-animate {
+    animation: gear-spin 0.4s linear infinite;
+}
+.gear-animate-reverse {
+    animation: gear-spin-reverse 0.4s linear infinite;
+}
+
+@keyframes grinder-shake {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-2px, -2px); }
+    50% { transform: translate(2px, 2px); }
+    75% { transform: translate(-2px, 2px); }
+}
+.grinder-shaking {
+    animation: grinder-shake 0.1s infinite;
+}
+
+@keyframes meat-spawn {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Phase Transitions */
+#blood-pool {
+    transition: all 1.5s;
+    transform: translateY(150px) scale(0);
+    opacity: 0;
+}
+body[data-phase="2"] #blood-pool,
+body[data-phase="3"] #blood-pool {
+    transform: translateY(150px) scale(1.5);
+    opacity: 0.8;
+}
+
+#zilu-container {
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+body[data-phase="2"] #zilu-container,
+body[data-phase="3"] #zilu-container,
+body[data-phase="4"] #zilu-container,
+body[data-phase="5"] #zilu-container {
+    transform: translateY(150px);
+}
+
+#zilu-inner {
+    transition: all 0.8s;
+}
+body[data-phase="1"] #zilu-inner {
+    animation: shake 0.2s infinite;
+}
+body[data-phase="2"] #zilu-inner {
+    transform: rotate(90deg);
+}
+body[data-phase="4"] #zilu-inner,
+body[data-phase="5"] #zilu-inner {
+    opacity: 0;
+}
+
+#hammer-guy-container {
+    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: translate(500px, 50px);
+    opacity: 0;
+}
+body[data-phase="3"] #hammer-guy-container {
+    transform: translate(0px, 50px);
+    opacity: 1;
+}
+
+#meat-container {
+    transition: all 1.5s ease-in;
+    transform: translate(0px, 150px) scale(0.5);
+    opacity: 0;
+}
+body[data-phase="3"] #meat-container {
+    transform: translate(0px, 150px) scale(0.5);
+    opacity: 1;
+}
+body[data-phase="4"] #meat-container {
+    transform: translate(0px, -80px) scale(0);
+    opacity: 1;
+}
+
+#grinder-container {
+    transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: translateY(-600px);
+    opacity: 0;
+}
+body[data-phase="4"] #grinder-container {
+    transform: translateY(0px);
+    opacity: 1;
+}
+
+#grinder-output {
+    transition: height 2s linear 2s;
+    height: 0%;
+}
+body[data-phase="4"] #grinder-output {
+    height: 100%;
+}
+
+#burger-container {
+    transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+}
+body[data-phase="5"] #burger-container {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+}
+#burger-text {
+    transition: all 0.5s ease-out 1s;
+    transform: translateY(20px);
+    opacity: 0;
+}
+body[data-phase="5"] #burger-text {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Visibility toggles */
+.phase-show-0 { display: none; }
+body[data-phase="0"] .phase-show-0 { display: block; }
+
+.phase-show-5 { display: none; }
+body[data-phase="5"] .phase-show-5 { display: block; }
+
+.phase-show-active { display: none; }
+body:not([data-phase="0"]):not([data-phase="5"]) .phase-show-active { display: flex; }

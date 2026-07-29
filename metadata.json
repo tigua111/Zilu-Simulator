@@ -1,0 +1,6 @@
+{
+  "name": "Zilu Simulator",
+  "description": "A dark humor historical simulation of Zilu's final moments.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

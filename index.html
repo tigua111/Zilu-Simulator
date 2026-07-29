@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>子路模擬器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body data-phase="0" class="w-full h-screen bg-[#050505] text-[#e5e7eb] flex flex-col font-sans overflow-hidden select-none relative">
+    
+    <header class="p-8 flex justify-between items-end border-b border-[#262626] z-50 bg-[#050505]">
+        <div class="leading-none">
+          <h1 class="text-8xl font-black tracking-tighter text-[#7f1d1d] uppercase">子路</h1>
+          <div class="text-2xl tracking-[0.5em] font-light mt-2">Zilu Simulator v1.0</div>
+        </div>
+        <div class="text-right">
+          <p class="text-sm opacity-50 uppercase tracking-widest">Historical Processing Unit</p>
+          <p id="status-text" class="font-mono text-xl text-[#7f1d1d]">
+            STATUS: READY_TO_MINCE
+          </p>
+        </div>
+    </header>
+
+    <main class="flex-grow flex relative overflow-hidden">
+        
+        <div class="flex-grow flex items-center justify-center relative overflow-hidden">
+            <!-- Background Design -->
+            <div class="absolute inset-0 opacity-10 flex items-center justify-center pointer-events-none">
+              <div class="w-[600px] h-[600px] border-[40px] border-[#7f1d1d] rounded-full"></div>
+            </div>
+
+            <!-- Blood Pool -->
+            <div class="absolute inset-0 z-10 pointer-events-none flex items-center justify-center">
+              <div id="blood-pool" class="w-96 h-32 bg-red-900/80 rounded-full blur-xl"></div>
+            </div>
+
+            <!-- Zilu -->
+            <div id="zilu-container" class="absolute inset-0 z-20 flex flex-col items-center justify-center origin-center pointer-events-none">
+                <div id="zilu-inner">
+                    <svg viewBox="0 0 200 400" class="w-48 h-96 drop-shadow-2xl">
+                        <!-- Head -->
+                        <circle cx="100" cy="50" r="35" fill="#fcd34d" />
+                        <!-- Hair/Hat -->
+                        <path d="M70 25 Q100 0 130 25 L120 40 L80 40 Z" fill="#1f2937" />
+                        <path d="M85 0 L115 0 L115 15 L85 15 Z" fill="#1f2937" />
+                        <!-- Body/Robes -->
+                        <path d="M60 95 L140 95 L160 300 L40 300 Z" fill="#e5e7eb" stroke="#1f2937" stroke-width="4" />
+                        <path d="M100 95 L100 300" stroke="#1f2937" stroke-width="4" />
+                        <!-- Name on Chest -->
+                        <text x="100" y="140" font-size="24" fill="#1f2937" text-anchor="middle" font-weight="900" stroke="#e5e7eb" stroke-width="4" paint-order="stroke" class="font-sans tracking-widest">子</text>
+                        <text x="100" y="170" font-size="24" fill="#1f2937" text-anchor="middle" font-weight="900" stroke="#e5e7eb" stroke-width="4" paint-order="stroke" class="font-sans tracking-widest">路</text>
+                        <!-- Belt -->
+                        <rect x="50" y="180" width="100" height="20" fill="#7f1d1d" />
+                        <!-- Arms -->
+                        <path d="M60 95 Q20 150 30 220" stroke="#d1d5db" stroke-width="25" stroke-linecap="round" />
+                        <path d="M140 95 Q180 150 170 220" stroke="#d1d5db" stroke-width="25" stroke-linecap="round" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Meat Chunks -->
+            <div class="absolute inset-0 z-20 pointer-events-none flex items-center justify-center">
+                <div id="meat-container" class="flex flex-wrap justify-center content-center w-64 h-64">
+                    <!-- Meat injected by JS -->
+                </div>
+            </div>
+
+            <!-- Attackers -->
+            <div id="attackers-container" class="absolute inset-0 z-30 pointer-events-none overflow-visible flex items-center justify-center">
+                <!-- Attackers injected by JS -->
+            </div>
+
+            <!-- Hammer Guy -->
+            <div class="absolute inset-0 z-30 pointer-events-none flex items-center justify-center">
+                <div id="hammer-guy-container" class="absolute flex flex-col items-center drop-shadow-2xl">
+                    <div class="flex items-center">
+                        <div class="flex flex-col items-center mr-[-20px] z-10">
+                            <span class="text-xl font-black text-[#e5e7eb] bg-[#7f1d1d] px-2 py-1 rounded border-2 border-[#e5e7eb] mb-2 shadow-lg tracking-widest">蒯聵</span>
+                            <span class="text-8xl" style="transform: scaleX(-1)">🧑‍🦲</span>
+                        </div>
+                        <div id="hammer" class="text-9xl z-20">🔨</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grinder Machine -->
+            <div class="absolute inset-0 z-40 pointer-events-none flex items-center justify-center">
+                <div id="grinder-container" class="absolute flex flex-col items-center">
+                    <div class="flex justify-center w-full gap-4 relative top-10 z-40">
+                        <div class="text-7xl drop-shadow-lg gear-animate">⚙️</div>
+                        <div class="text-7xl drop-shadow-lg gear-animate-reverse">⚙️</div>
+                    </div>
+                    
+                    <div class="w-64 h-72 bg-[#1a1a1a] rounded-3xl border-[8px] border-[#333] shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex flex-col items-center justify-between py-6 relative mt-2 z-30 grinder-shaking">
+                        <!-- Input slot -->
+                        <div class="w-40 h-8 bg-[#050505] rounded-full shadow-inner border border-black overflow-hidden relative">
+                           <div class="absolute inset-0 bg-red-900/50" style="animation: pulse-opacity 0.5s infinite"></div>
+                        </div>
+                        <!-- Indicators -->
+                        <div class="flex gap-6 my-4">
+                            <div class="w-6 h-6 rounded-full bg-[#7f1d1d] shadow-[0_0_15px_rgba(127,29,29,0.9)] animate-pulse"></div>
+                            <div class="w-6 h-6 rounded-full bg-green-900 shadow-[0_0_15px_rgba(20,83,45,0.9)]"></div>
+                            <div class="w-6 h-6 rounded-full bg-yellow-600 animate-pulse"></div>
+                        </div>
+                        <div class="text-[#7f1d1d] font-black tracking-widest uppercase text-xl">MEAT GRINDER 9000</div>
+                        <!-- Output slot -->
+                        <div class="w-32 h-10 bg-[#050505] rounded-full shadow-inner border border-black relative overflow-hidden">
+                           <div id="grinder-output" class="absolute inset-x-0 top-0 bg-red-800"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Burger -->
+            <div id="burger-container" class="absolute inset-0 flex flex-col items-center justify-center z-50 pointer-events-none">
+                <div class="text-[200px] leading-none drop-shadow-[0_0_80px_rgba(255,255,255,0.2)]">🍔</div>
+                <div id="burger-text" class="mt-8 text-4xl font-black text-[#7f1d1d] tracking-[0.5em] uppercase bg-black/50 px-8 py-4 rounded-xl border border-[#7f1d1d]">
+                    美味的漢堡排
+                </div>
+            </div>
+            
+        </div>
+        
+    </main>
+
+    <footer class="h-40 bg-[#0a0a0a] border-t border-[#262626] flex items-center justify-center relative z-50 shrink-0">
+        <div class="absolute bottom-16 inset-x-0 flex justify-center items-center z-50 pointer-events-none">
+            <!-- Phase 0: Start Button -->
+            <button id="btn-start" onclick="setPhase(1)" class="phase-show-0 group relative px-12 md:px-24 py-6 bg-[#7f1d1d] hover:bg-[#991b1b] transition-colors border-2 border-white/20 overflow-hidden cursor-pointer pointer-events-auto shadow-2xl">
+              <div class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform"></div>
+              <span class="relative text-xl md:text-3xl font-black tracking-[0.3em] text-white flex items-center gap-4">
+                <span class="text-sm opacity-50">&gt;&gt;</span>
+                開始模擬
+                <span class="text-sm opacity-50">&lt;&lt;</span>
+              </span>
+            </button>
+            
+            <!-- Phase 5: Restart Button -->
+            <button id="btn-restart" onclick="setPhase(0)" class="phase-show-5 group relative px-12 md:px-24 py-6 bg-white hover:bg-neutral-300 transition-colors border-2 border-white/20 overflow-hidden cursor-pointer pointer-events-auto shadow-2xl">
+              <span class="relative text-xl md:text-3xl font-black tracking-[0.3em] text-[#0a0a0a] flex items-center gap-4">
+                重新模擬
+              </span>
+            </button>
+            
+            <!-- Active Phases: Processing -->
+            <div id="btn-processing" class="phase-show-active px-24 py-6 flex items-center gap-4 opacity-50">
+              <span id="btn-processing-text" class="text-xl md:text-3xl font-black tracking-[0.5em] animate-pulse text-[#7f1d1d]">
+                PROCESSING...
+              </span>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        @keyframes pulse-opacity {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.8; }
+        }
+    </style>
+    <script src="./script.js"></script>
+</body>
+</html>
